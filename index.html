@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4u Ltd | Tools and Outdoor Gear, Direct to New Zealand</title>
+  <meta name="description" content="4u Ltd supplies chainsaw sharpeners, ag tools, outdoor gear and hunting equipment direct from the manufacturer to New Zealand customers.">
+  <link rel="icon" href="data/logo.webp" type="image/webp">
+
+  <!-- Structure: shared by every design stage -->
+  <link rel="stylesheet" href="css/layout.css">
+  <!-- Look: swap this one file to change stage -->
+  <link rel="stylesheet" href="css/theme-wireframe.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Contact bar + header (sticky together) -->
+  <div class="site-top">
+    <div class="contact-bar" data-label="Contact bar · sticky">
+      <div class="container contact-bar__inner">
+        <span>Email: <a href="mailto:just4unz@gmail.com">just4unz@gmail.com</a></span>
+        <span>Phone: <a href="tel:+6475526778">(07) 552 6778</a></span>
+      </div>
+    </div>
+
+    <header class="site-header" data-label="Header · sticky">
+      <div class="container site-header__inner">
+        <a class="logo" href="#top" aria-label="4u Ltd home">
+          <span class="logo__box">LOGO</span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <ul>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a class="btn btn--outline btn--small" href="#contact">Enquire</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <main id="main">
+
+    <!-- Hero: featured product -->
+    <section class="sec hero" id="top" data-label="Hero · featured product" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <p class="eyebrow">Featured · Chainsaw maintenance</p>
+          <h1 id="hero-title">Chainsaw Sharpeners</h1>
+          <p class="lede"><strong>Bring new life back to your chainsaw blades.</strong>
+            Our sharpeners are expertly designed for optimal cutting performance every time.</p>
+          <div class="btn-row">
+            <a class="btn btn--solid" href="#contact">Enquire now</a>
+            <button class="btn btn--outline" type="button" id="videoToggle"
+                    aria-expanded="false" aria-controls="videoPanel">
+              <span aria-hidden="true">▶</span> Watch setup video
+            </button>
+          </div>
+        </div>
+        <div class="media media--hero" role="img" aria-label="Product image placeholder: chainsaw sharpener">
+          <span class="media__label">Product image</span>
+        </div>
+      </div>
+
+      <!-- Setup video: hidden until the button is pressed -->
+      <div class="container">
+        <div class="video-panel" id="videoPanel" hidden>
+          <video controls preload="none" playsinline>
+            <source src="data/video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <section class="sec trust" data-label="Trust strip" aria-label="Why customers choose 4u">
+      <ul class="container trust__list">
+        <li class="trust__item">
+          <span class="icon-slot" aria-hidden="true"></span>
+          <span class="trust__text">Over 20 years trading</span>
+        </li>
+        <li class="trust__item">
+          <span class="icon-slot" aria-hidden="true"></span>
+          <span class="trust__text">Proudly NZ owned</span>
+        </li>
+        <li class="trust__item">
+          <span class="icon-slot" aria-hidden="true"></span>
+          <span class="trust__text">Direct from the manufacturer</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Ranges -->
+    <section class="sec ranges" id="products" data-label="Ranges · 3 alternating rows" aria-labelledby="ranges-title">
+      <div class="container ranges__intro">
+        <h2 id="ranges-title">Our ranges</h2>
+        <p>High-performance tools and outdoor equipment, sourced globally and supplied at the best value for money.</p>
+      </div>
+
+      <article class="container range" aria-labelledby="range-ag">
+        <div class="media media--range" role="img" aria-label="Image placeholder: Ag Products">
+          <span class="media__label">Image</span>
+        </div>
+        <div class="range__text">
+          <h3 id="range-ag">Ag Products</h3>
+          <p>Enhance your toolkit with high-performance, precision tools.</p>
+          <ul class="feature-list">
+            <li><strong>68:1 Torque Multipliers.</strong> Engineered for heavy-duty tasks with immense torque.</li>
+            <li><strong>Universal Adjustable Wrenches.</strong> Versatile and durable, in sizes 5-19mm and 5-27mm.</li>
+          </ul>
+          <a class="more" href="#contact">Enquire about Ag Products →</a>
+        </div>
+      </article>
+
+      <article class="container range range--reverse" aria-labelledby="range-outdoors">
+        <div class="media media--range" role="img" aria-label="Image placeholder: Outdoors and Camping">
+          <span class="media__label">Image</span>
+        </div>
+        <div class="range__text">
+          <h3 id="range-outdoors">The Farm, Outdoors &amp; Camping</h3>
+          <p>A premium range of outdoor gear designed for adventure and convenience.</p>
+          <ul class="feature-list">
+            <li><strong>Binoculars &amp; Monoculars.</strong> High-performance optics for clear, reliable viewing.</li>
+            <li><strong>Rechargeable LED Head Torches.</strong> Bright, efficient and hands-free.</li>
+            <li><strong>Telescopic Hiking Poles &amp; Walking Sticks.</strong> Lightweight, durable and adjustable.</li>
+          </ul>
+          <a class="more" href="#contact">Enquire about Outdoors →</a>
+        </div>
+      </article>
+
+      <article class="container range" aria-labelledby="range-hunting">
+        <div class="media media--range" role="img" aria-label="Image placeholder: Hunting and Fishing">
+          <span class="media__label">Image</span>
+        </div>
+        <div class="range__text">
+          <h3 id="range-hunting">Hunting &amp; Fishing</h3>
+          <p>Gear up for your next adventure with top-quality outdoor equipment.</p>
+          <ul class="feature-list">
+            <li><strong>Southern Star 1200 Ultimate Hunting Torch Kit.</strong> Powerful, reliable and built for tough conditions.</li>
+            <li><strong>Spotting Scopes.</strong> 10-30 x 50 adjustable, or 10 x 50 fixed.</li>
+            <li><strong>Techni Ice Reusable Dry Ice Packs.</strong> A reusable ice replacement that stays frozen for days.</li>
+          </ul>
+          <a class="more" href="#contact">Enquire about Hunting &amp; Fishing →</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- About -->
+    <section class="sec about" id="about" data-label="About · story, vision, mission" aria-labelledby="about-title">
+      <h2 id="about-title" class="visually-hidden">About 4u Ltd</h2>
+      <div class="container about__grid">
+        <div>
+          <h3>Our Story</h3>
+          <p>For over 20 years, 4u Ltd has been delivering innovative, high-quality products directly to New Zealand customers.</p>
+        </div>
+        <div>
+          <h3>Our Vision</h3>
+          <p><strong>We strive to provide the best value for money, without ever compromising on the quality our customers have come to expect.</strong>
+            We are dedicated to offering high-performance products that deliver lasting value, ensuring satisfaction and trust with every purchase.</p>
+        </div>
+        <div>
+          <h3>Our Mission</h3>
+          <p><strong>We are dedicated to globally sourcing products that provide exceptional value.</strong>
+            To ensure we offer the best prices we operate a low cost business model, supplying products directly from the manufacturer to the customer. By cutting out the middlemen, we pass on significant savings while maintaining the quality our customers expect.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="sec contact" id="contact" data-label="Contact · 4 detail cards" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 id="contact-title">Contact</h2>
+        <p class="contact__lede">For all wholesale, retail &amp; product enquiries.</p>
+        <ul class="contact__grid">
+          <li class="card">
+            <span class="icon-slot" aria-hidden="true"></span>
+            <h3>Email</h3>
+            <a href="mailto:just4unz@gmail.com">just4unz@gmail.com</a>
+          </li>
+          <li class="card">
+            <span class="icon-slot" aria-hidden="true"></span>
+            <h3>Phone</h3>
+            <a href="tel:+6475526778">(07) 552 6778</a>
+          </li>
+          <li class="card">
+            <span class="icon-slot" aria-hidden="true"></span>
+            <h3>Mobile</h3>
+            <a href="tel:+64212217788">021 221 7788</a>
+          </li>
+          <li class="card">
+            <span class="icon-slot" aria-hidden="true"></span>
+            <h3>Postal address</h3>
+            <address>PO Box 16422, Bethlehem, Tauranga 3147</address>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" data-label="Footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <span class="logo__box">LOGO</span>
+        <span class="badge">Proudly NZ owned</span>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-nav">
+          <li><a href="#products">Products</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__legal">&copy; 2025 4u Ltd. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
