@@ -1,0 +1,403 @@
+/* ==========================================================
+   theme-final.css  ·  Stage 3 (v1.0.0.0)
+   The final look: navy hero and about bands, yellow trust
+   strip, Barlow type, icons and spec chips. Structure comes
+   from layout.css, so only look and feel is defined here.
+   Replaces theme-revised.css (Stage 2).
+   ========================================================== */
+
+/* ---------- Fonts (self-hosted, see fonts/README.md) ---------- */
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fonts/Barlow-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../fonts/BarlowCondensed-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../fonts/BarlowCondensed-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* Palette (same as Stage 2) */
+  --color-topbar: #0A1A2F;
+  --color-header: #10264A;
+  --color-heading: #10264A;
+  --color-text: #1B2740;
+  --color-text-muted: #4A5872;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F1F4F9;
+  --color-border: #D9E0EB;
+  --color-accent: #F5B700;
+  --color-on-accent: #10264A;
+  --color-link: #1D4ED8;
+  --color-footer: #0A1A2F;
+
+  /* Tints measured from the Stage 3 design */
+  --color-on-dark: #FFFFFF;
+  --color-on-dark-muted: #C9D4E6;
+  --color-chip: #E8EDF6;
+  --color-footer-line: #263A58;
+
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+
+  --radius: 10px;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+}
+
+a { color: var(--color-link); }
+:focus-visible { outline: 3px solid var(--color-link); outline-offset: 3px; }
+.site-top :focus-visible,
+.hero :focus-visible,
+.about :focus-visible,
+.site-footer :focus-visible { outline-color: var(--color-accent); }
+
+.skip-link { background: var(--color-heading); color: var(--color-on-dark); }
+
+/* ---------- Contact bar ---------- */
+.contact-bar {
+  background: var(--color-topbar);
+  color: var(--color-on-dark-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.contact-bar a { color: var(--color-on-dark-muted); text-decoration: none; }
+.contact-bar a:hover { color: var(--color-on-dark); text-decoration: underline; }
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--color-header);
+  border-bottom: 3px solid var(--color-accent);
+}
+/* contact bar and header run the full page width with a gutter at each edge */
+.contact-bar__inner.container,
+.site-header__inner.container { max-width: none; }
+
+.logo__box { width: 104px; height: 52px; }
+.logo__box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;               /* logo.webp has empty space above the oval, */
+  object-position: center bottom;  /* so anchor to the bottom to trim it */
+}
+
+.site-nav a {
+  color: var(--color-on-dark);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.site-nav a:hover { color: var(--color-accent); }
+.site-nav .btn,
+.site-nav .btn:hover { color: var(--color-on-accent); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  border: 2px solid transparent;
+  border-radius: 3px;
+  min-height: 63px;
+  padding: 12px 32px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.btn--small { min-height: 51px; padding: 8px 26px; font-size: 1.25rem; }
+
+.btn--solid,
+.site-nav .btn {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.btn--solid:hover,
+.site-nav .btn:hover { filter: brightness(0.94); color: var(--color-on-accent); }
+
+.btn--outline {
+  background: transparent;
+  border-color: var(--color-heading);
+  color: var(--color-heading);
+}
+.btn--outline:hover { background: var(--color-surface-alt); color: var(--color-heading); }
+.site-nav .btn--outline { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+.site-nav .btn--outline:hover { background: var(--color-accent); }
+
+.btn__icon circle { fill: var(--color-accent); }
+.btn__icon path { fill: var(--color-on-accent); }
+
+/* ---------- Type ---------- */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-heading);
+}
+h1 { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.95; overflow-wrap: anywhere; }
+h2 { font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1; }
+h3 { font-size: clamp(2rem, 3.5vw, 2.75rem); line-height: 1.05; }
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+p, .feature-list { color: var(--color-text-muted); }
+p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
+
+.feature-list li::before { background: var(--color-accent); }
+
+/* ---------- Hero ---------- */
+.hero { background: var(--color-header); }
+.hero__grid { padding-block: 80px; }
+.hero .eyebrow { color: var(--color-accent); }
+.hero h1 { color: var(--color-on-dark); }
+.hero h1::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 5px;
+  margin-top: 24px;
+  background: var(--color-accent);
+}
+.hero__text { gap: 24px; }
+.lede { font-size: 1.25rem; color: var(--color-on-dark-muted); }
+.hero .lede strong { color: var(--color-on-dark); }
+.hero .btn--outline { border-color: var(--color-on-dark); color: var(--color-on-dark); }
+.hero .btn--outline:hover { background: rgba(255, 255, 255, 0.1); color: var(--color-on-dark); }
+.btn-row { gap: 16px; }
+.hero .btn--outline { gap: 12px; }
+
+.media { border-radius: 8px; overflow: hidden; }
+.media--hero {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.media--hero img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 400px;
+  margin-inline: auto;
+  object-fit: contain;
+}
+.media--hero figcaption {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Trust strip ---------- */
+.trust { background: var(--color-accent); }
+.trust__list { padding-block: 22px; }
+.trust__item { justify-content: center; }
+.icon-slot { color: var(--color-heading); }
+.trust .icon-slot { width: 28px; height: 28px; border-radius: 0; }
+.trust .icon-slot svg { width: 28px; height: 28px; }
+.trust__text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-on-accent);
+}
+
+/* ---------- Ranges ---------- */
+.ranges { background: var(--color-surface); }
+.ranges__intro h2 { margin-top: 2px; }
+.ranges__intro p:last-child { font-size: 1.125rem; }
+
+.range-band--alt {
+  background: var(--color-surface-alt);
+  border-block: 1px solid var(--color-border);
+}
+.range-band + .range-band:not(.range-band--alt) { border-top: 0; }
+.media--range { height: 380px; }
+.range__text { gap: 18px; }
+.range__text h3 { margin-bottom: -2px; }
+
+.chips li {
+  background: var(--color-chip);
+  color: var(--color-heading);
+  border-radius: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: 0.06em;
+}
+
+.more {
+  display: inline-block;
+  padding-bottom: 6px;
+  border-bottom: 3px solid var(--color-accent);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-heading);
+}
+.more:hover { color: var(--color-heading); border-bottom-color: var(--color-heading); }
+
+/* ---------- About ---------- */
+.about { background: var(--color-header); padding-block: 88px; }
+.about h3 {
+  position: relative;
+  padding-top: 24px;
+  font-size: clamp(2rem, 3.2vw, 2.5rem);
+  color: var(--color-on-dark);
+}
+.about h3::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 48px;
+  height: 4px;
+  background: var(--color-accent);
+}
+.about p { color: var(--color-on-dark-muted); }
+.about p strong { color: var(--color-on-dark); }
+
+/* ---------- Contact ---------- */
+.contact { background: var(--color-surface-alt); padding-block: 88px; }
+.contact__lede { font-size: 1.125rem; }
+.card {
+  gap: 10px;
+  padding: 26px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+.card .icon-slot { background: var(--color-header); color: var(--color-accent); margin-bottom: 4px; }
+.card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+}
+.card a, .card address {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-heading);
+}
+.card a { text-decoration: none; }
+.card a:hover { text-decoration: underline; }
+
+.video-panel video { background: #000; border-radius: var(--radius); }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--color-footer); color: var(--color-on-dark-muted); }
+
+/* Row 1: logo and nav. Row 2: divider. Row 3: copyright and badge.
+   .site-footer__brand is flattened so its children join the grid. */
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 40px;
+  padding-block: 56px 40px;
+}
+.site-footer__inner::before {
+  content: "";
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-block: 32px 24px;
+  border-top: 1px solid var(--color-footer-line);
+}
+.site-footer__brand { display: contents; }
+.site-footer .logo__box { grid-column: 1; grid-row: 1; width: 100px; height: 50px; justify-self: start; }
+.site-footer nav { grid-column: 2; grid-row: 1; }
+.site-footer__legal { grid-column: 1; grid-row: 3; width: auto; font-size: 1rem; color: var(--color-on-dark-muted); }
+.badge {
+  grid-column: 2; grid-row: 3;
+  justify-self: end;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.footer-nav a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-on-dark-muted);
+}
+.footer-nav a:hover { color: var(--color-on-dark); }
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width: 820px) {
+  .logo__box { width: 84px; height: 42px; }
+  .site-footer .logo__box { width: 84px; height: 42px; }
+  .hero__grid { padding-block: 48px; }
+  .btn { min-height: 56px; padding-inline: 24px; }
+  .btn--small { min-height: 44px; padding-inline: 20px; }
+  .media--range { height: 260px; }
+  .media--hero { padding: 16px; }
+  .media--hero img { max-height: 320px; }
+  .trust__item { justify-content: flex-start; }
+  .trust__list { padding-block: 24px; }
+  .about, .contact { padding-block: 56px; }
+  .site-nav a { font-size: 1.125rem; }
+}
+
+@media (max-width: 520px) {
+  .site-footer__inner { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .site-footer__inner::before { display: none; }
+  .site-footer .logo__box,
+  .site-footer nav,
+  .site-footer__legal,
+  .badge { grid-column: 1; grid-row: auto; }
+  .site-footer .logo__box { order: 1; }
+  .site-footer nav { order: 2; }
+  .site-footer__legal { order: 3; }
+  .badge { order: 4; justify-self: start; }
+  .site-footer__legal { padding-top: 20px; border-top: 1px solid var(--color-footer-line); }
+}
