@@ -109,10 +109,13 @@ address { font-style: normal; }
 .media { position: relative; width: 100%; }
 .media img { width: 100%; height: 100%; object-fit: cover; }
 .media--hero { aspect-ratio: auto; height: auto; }
-.media--hero video { width: 100%; height: auto; }
+.media--hero video { width: 100%; height: auto; aspect-ratio: 16 / 9; } /* 640 x 360 */
 /* img/video are display:block above, which would override the hidden attribute */
 .media--hero img[hidden],
 .media--hero video[hidden] { display: none; }
+/* Swap area: the outgoing item is lifted out of flow while it animates away */
+.hero-stage { position: relative; }
+.hero-stage .is-leaving { position: absolute; top: 0; left: 0; right: 0; margin-inline: auto; }
 .media--range { height: 340px; }
 
 /* ---------- Hero ---------- */
