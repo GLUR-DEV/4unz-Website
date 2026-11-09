@@ -1,0 +1,193 @@
+/* ==========================================================
+   theme-revised.css  ·  Stage 2
+   Brand colours, real imagery, final copy styling.
+   Structure comes from layout.css, so only look and feel is
+   defined here. Replaces theme-wireframe.css (Stage 1) and
+   will itself be replaced by theme-final.css (Stage 3).
+   ========================================================== */
+
+:root {
+  /* Stage 2 palette (exact values from the design) */
+  --color-topbar: #0A1A2F;
+  --color-header: #10264A;
+  --color-heading: #10264A;
+  --color-text: #1B2740;
+  --color-text-muted: #4A5872;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F1F4F9;
+  --color-border: #D9E0EB;
+  --color-accent: #F5B700;
+  --color-on-accent: #10264A;
+  --color-link: #1D4ED8;
+  --color-footer: #0A1A2F;
+
+  /* Light text used on the dark navy areas (measured from the design) */
+  --color-on-dark: #FFFFFF;
+  --color-on-dark-muted: #C9D4E6;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font);
+  font-size: 1rem;
+}
+
+a { color: var(--color-link); }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--color-link); outline-offset: 3px; }
+.site-top :focus-visible,
+.site-footer :focus-visible { outline-color: var(--color-accent); }
+
+.skip-link { background: var(--color-heading); color: var(--color-on-dark); }
+
+/* ---------- Contact bar ---------- */
+.contact-bar {
+  background: var(--color-topbar);
+  color: var(--color-on-dark-muted);
+  font-size: 0.875rem;
+}
+.contact-bar a { color: var(--color-on-dark-muted); text-decoration: none; }
+.contact-bar a:hover { color: var(--color-on-dark); text-decoration: underline; }
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--color-header);
+  border-bottom: 3px solid var(--color-accent);
+}
+
+/* Contact bar and header run the full width of the page in the
+   design, with the standard gutter at each edge. */
+.contact-bar__inner.container,
+.site-header__inner.container { max-width: none; }
+
+.logo__box { width: 100px; height: 50px; }
+.logo__box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* logo.webp has empty space above the oval; */
+  object-position: center bottom; /* anchor to the bottom to trim it */
+}
+
+.site-nav a { color: var(--color-on-dark); text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
+.site-nav .btn,
+.site-nav .btn:hover { text-decoration: none; }
+
+/* ---------- Buttons ---------- */
+.btn { border: 2px solid transparent; font-weight: 600; }
+.btn--solid,
+.site-nav .btn {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+.btn--solid:hover,
+.site-nav .btn:hover { filter: brightness(0.94); color: var(--color-on-accent); }
+.btn--outline {
+  background: transparent;
+  border-color: var(--color-heading);
+  color: var(--color-heading);
+}
+.btn--outline:hover { background: var(--color-surface-alt); color: var(--color-heading); }
+/* the header Enquire button is solid in the design */
+.site-nav .btn--outline { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+.site-nav .btn--outline:hover { background: var(--color-accent); color: var(--color-on-accent); }
+
+/* ---------- Images ---------- */
+.media { background: transparent; }
+.media--hero {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+.media--hero img { object-fit: contain; padding: 20px; }
+
+/* ---------- Type ---------- */
+h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); line-height: 1.1; font-weight: 700; color: var(--color-heading); }
+h2 { font-size: clamp(1.75rem, 3.5vw, 2.25rem); line-height: 1.15; font-weight: 700; color: var(--color-heading); }
+h3 { font-size: 1.5rem; line-height: 1.2; font-weight: 700; color: var(--color-heading); }
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+p, .feature-list { color: var(--color-text-muted); }
+p strong, .feature-list strong { color: var(--color-text); font-weight: 700; }
+.more { font-weight: 400; color: var(--color-link); }
+
+.feature-list li::before {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  top: 0.7em; left: 6px;
+  background: var(--color-text);
+}
+
+/* ---------- Sections ---------- */
+.trust {
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.trust__item { justify-content: center; text-align: center; }
+.trust__text { font-weight: 700; color: var(--color-heading); }
+
+.about {
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card { border: 1px solid var(--color-border); background: var(--color-surface); }
+.card h3 { font-size: 1.0625rem; color: var(--color-heading); }
+.card a, .card address { color: var(--color-text-muted); }
+.card a { text-decoration: none; }
+.card a:hover { color: var(--color-link); text-decoration: underline; }
+
+.video-panel video { background: #000; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--color-footer); color: var(--color-on-dark-muted); }
+
+/* Logo and nav on the first row, copyright and badge on the second.
+   .site-footer__brand is flattened so its children join the grid. */
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px 40px;
+}
+.site-footer__brand { display: contents; }
+.site-footer .logo__box { grid-column: 1; grid-row: 1; width: 86px; height: 43px; justify-self: start; }
+.site-footer nav { grid-column: 2; grid-row: 1; }
+.site-footer__legal { grid-column: 1; grid-row: 2; width: auto; color: var(--color-on-dark-muted); }
+.badge {
+  grid-column: 2; grid-row: 2;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.footer-nav a { color: var(--color-on-dark-muted); text-decoration: none; }
+.footer-nav a:hover { color: var(--color-on-dark); text-decoration: underline; }
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width: 820px) {
+  .logo__box { width: 80px; height: 40px; }
+  .site-footer .logo__box { width: 80px; height: 40px; }
+}
+
+@media (max-width: 520px) {
+  .site-footer__inner { grid-template-columns: minmax(0, 1fr); }
+  .site-footer .logo__box,
+  .site-footer nav,
+  .site-footer__legal,
+  .badge { grid-column: 1; grid-row: auto; }
+}
