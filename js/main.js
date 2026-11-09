@@ -1,16 +1,32 @@
-// Show / hide the chainsaw sharpener setup video.
+// Swap the hero chainsaw sharpener image for the setup video, and back again.
 (function () {
   var button = document.getElementById('videoToggle');
-  var panel = document.getElementById('videoPanel');
-  if (!button || !panel) return;
+  var image = document.getElementById('heroImage');
+  var video = document.getElementById('heroVideo');
+  var caption = document.getElementById('heroCaption');
+  if (!button || !image || !video) return;
+
+  var label = button.querySelector('.btn__label');
+  var labelShow = label ? label.textContent : '';
+  var labelHide = 'Hide setup video';
 
   button.addEventListener('click', function () {
-    var opening = panel.hidden;
-    panel.hidden = !opening;
-    button.setAttribute('aria-expanded', String(opening));
+    var showVideo = video.hidden;
 
-    var video = panel.querySelector('video');
-    if (!opening && video) video.pause();
-    if (opening) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    video.hidden = !showVideo;
+    image.hidden = showVideo;
+    button.setAttribute('aria-expanded', String(showVideo));
+    if (label) label.textContent = showVideo ? labelHide : labelShow;
+    if (caption) {
+      caption.textContent = showVideo ? caption.dataset.videoText : caption.dataset.imageText;
+    }
+
+    if (showVideo) {
+      // Started from a click, so browsers allow playback with sound.
+      var started = video.play();
+      if (started && started.catch) started.catch(function () {});
+    } else {
+      video.pause();
+    }
   });
 })();

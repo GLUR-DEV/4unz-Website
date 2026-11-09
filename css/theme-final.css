@@ -213,6 +213,10 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   margin-inline: auto;
   object-fit: contain;
 }
+.media--hero video {
+  background: #000;
+  border-radius: var(--radius);
+}
 .media--hero figcaption {
   margin-top: 14px;
   padding-top: 14px;
@@ -320,8 +324,6 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 }
 .card a { text-decoration: none; }
 .card a:hover { text-decoration: underline; }
-
-.video-panel video { background: #000; border-radius: var(--radius); }
 
 /* ---------- Footer ---------- */
 .site-footer { background: var(--color-footer); color: var(--color-on-dark-muted); }

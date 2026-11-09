@@ -109,6 +109,10 @@ address { font-style: normal; }
 .media { position: relative; width: 100%; }
 .media img { width: 100%; height: 100%; object-fit: cover; }
 .media--hero { aspect-ratio: auto; height: auto; }
+.media--hero video { width: 100%; height: auto; }
+/* img/video are display:block above, which would override the hidden attribute */
+.media--hero img[hidden],
+.media--hero video[hidden] { display: none; }
 .media--range { height: 340px; }
 
 /* ---------- Hero ---------- */
@@ -121,10 +125,6 @@ address { font-style: normal; }
 }
 .hero__text { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
 .lede { max-width: 34em; }
-
-.video-panel { padding-bottom: 56px; }
-.video-panel[hidden] { display: none; }
-.video-panel video { width: 100%; max-width: 900px; margin-inline: auto; }
 
 /* ---------- Trust strip ---------- */
 .trust__list {

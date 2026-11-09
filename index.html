@@ -63,26 +63,22 @@
           <div class="btn-row">
             <a class="btn btn--solid" href="#contact">Enquire now</a>
             <button class="btn btn--outline" type="button" id="videoToggle"
-                    aria-expanded="false" aria-controls="videoPanel">
+                    aria-expanded="false" aria-controls="heroVideo">
               <svg class="btn__icon" viewBox="0 0 26 26" aria-hidden="true" focusable="false"><circle cx="13" cy="13" r="13"/><path d="M10.5 7.8v10.4l8-5.2z"/></svg>
-              Watch setup video
+              <span class="btn__label">Watch setup video</span>
             </button>
           </div>
         </div>
         <figure class="media media--hero">
-          <img src="https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp" alt="Orange chainsaw sharpener with the banner Sharpen Like a Pro" width="484" height="548">
-          <figcaption>Step-by-step setup and use video available</figcaption>
-        </figure>
-      </div>
-
-      <!-- Setup video: hidden until the button is pressed -->
-      <div class="container">
-        <div class="video-panel" id="videoPanel" hidden>
-          <video controls preload="none" playsinline>
+          <img id="heroImage" src="https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp" alt="Orange chainsaw sharpener with the banner Sharpen Like a Pro" width="484" height="548">
+          <video id="heroVideo" controls preload="none" playsinline hidden>
             <source src="https://4unzresources.blob.core.windows.net/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
-        </div>
+          <figcaption id="heroCaption"
+                      data-image-text="Step-by-step setup and use video available"
+                      data-video-text="Step-by-step setup and use video now playing">Step-by-step setup and use video available</figcaption>
+        </figure>
       </div>
     </section>
 

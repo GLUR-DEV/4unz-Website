@@ -118,8 +118,6 @@ p strong, .feature-list strong { color: var(--ink); }
 .card h3 { font-size: 1.0625rem; }
 .card a, .card address { color: var(--ink); }
 
-.video-panel video { background: #000; }
-
 /* ---------- Footer ---------- */
 .site-footer { background: var(--fill-2); padding-top: 24px; }
 .badge { border: 1px solid var(--line); background: var(--fill-1); font-weight: 600; }

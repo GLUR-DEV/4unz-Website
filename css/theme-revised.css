@@ -147,8 +147,6 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 700; }
 .card a { text-decoration: none; }
 .card a:hover { color: var(--color-link); text-decoration: underline; }
 
-.video-panel video { background: #000; }
-
 /* ---------- Footer ---------- */
 .site-footer { background: var(--color-footer); color: var(--color-on-dark-muted); }
 
