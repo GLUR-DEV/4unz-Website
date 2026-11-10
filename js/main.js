@@ -109,13 +109,12 @@
 // Sticky bar. The contact bar and header scroll away with the page. Once the page has scrolled past
 // the bar's own height it is fixed to the top and slides down. It then stays fixed until the page is
 // back at the very top, where it rejoins the page flow (it is already in exactly that spot, so there
-// is no visible change). Desktop only (wider than 820px): on phones the bar stays static.
+// is no visible change). Works at every screen size, phones included.
 (function () {
   var bar = document.querySelector('.site-top');
   if (!bar) return;
 
   var root = document.documentElement;
-  var desktop = window.matchMedia('(min-width: 821px)');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   var DURATION = 800;                        // ms, length of the slide down
@@ -160,13 +159,6 @@
   }
 
   function update(animate) {
-    if (!desktop.matches) {                  // phones: leave the bar alone
-      stuck = false;
-      stopSlide();
-      bar.classList.remove('is-stuck');
-      unfix();
-      return;
-    }
     var height = bar.offsetHeight;
     root.style.setProperty('--site-top-height', height + 'px');
     // Sticks once past the bar's own height, and stays stuck until the page is back at the very top.

@@ -66,15 +66,13 @@ address { font-style: normal; }
   pointer-events: none;
 }
 
-/* Desktop, with JS: the bar scrolls away with the page, then is fixed to the top once the page has
-   scrolled past its own height (main.js adds .is-fixed and slides it down). It stays fixed until the
-   page is back at the very top. The body padding takes over the bar's space so the page does not
-   jump. Without JS the bar simply stays sticky (above). */
-@media (min-width: 821px) {
-  .bar-js .site-top { position: relative; }
-  .bar-js .site-top.is-fixed { position: fixed; top: 0; left: 0; right: 0; }
-  .bar-js.has-fixed-bar body { padding-top: var(--site-top-height, 0px); }
-}
+/* With JS (all screen sizes): the bar scrolls away with the page, then is fixed to the top once the
+   page has scrolled past its own height (main.js adds .is-fixed and slides it down). It stays fixed
+   until the page is back at the very top. The body padding takes over the bar's space so the page
+   does not jump. Without JS the bar simply stays sticky (above). */
+.bar-js .site-top { position: relative; }
+.bar-js .site-top.is-fixed { position: fixed; top: 0; left: 0; right: 0; }
+.bar-js.has-fixed-bar body { padding-top: var(--site-top-height, 0px); }
 
 .contact-bar__inner {
   display: flex;
@@ -232,11 +230,9 @@ address { font-style: normal; }
 
 @media (max-width: 820px) {
   :root { --gutter: 20px; --section-space: 56px; --gap: 28px; }
-  html { scroll-padding-top: 16px; }
-
-  /* the wrapped header is tall on phones, so let it scroll away */
-  .site-top { position: static; }
-  .site-top::after { display: none; }
+  /* the fixed header covers the top of the screen, so anchors must land below it
+     (--site-top-height is measured and set by main.js; 150px is the fallback) */
+  html { scroll-padding-top: calc(var(--site-top-height, 150px) + 8px); }
 
   .hero__grid,
   .range,
@@ -251,9 +247,17 @@ address { font-style: normal; }
   .trust__list { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 24px; }
   .range-band { padding-block: 48px; }
 
-  .site-header__inner { min-height: 72px; padding-block: 10px; }
+  /* Header: logo centered above a single, centered row of nav links (never stacked) */
+  .site-header__inner {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 0;
+    padding-block: 10px;
+  }
   .logo__box { width: 96px; height: 48px; }
-  .site-nav ul { gap: 6px 20px; }
+  .site-nav { max-width: 100%; }
+  .site-nav ul { flex-wrap: nowrap; justify-content: center; gap: 0 1.1em; }
 }
 
 @media (max-width: 520px) {

@@ -156,8 +156,8 @@ a { color: var(--color-link); }
 .site-nav .btn--outline { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
 .site-nav .btn--outline:hover { background: var(--color-accent); }
 
-/* Shadow that fades in while the bar slides down and sticks (desktop only, the bar
-   is not sticky on phones), and fades out quickly once the page is back at the very top.
+/* Shadow that fades in while the bar slides down and sticks (all screen sizes),
+   and fades out quickly once the page is back at the very top.
    main.js toggles .is-stuck; the slide itself is in main.js. Keep the fade-in length in
    step with DURATION in main.js. */
 .site-top::after {
@@ -439,7 +439,7 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
    Responsive
    ========================================================== */
 @media (max-width: 820px) {
-  .logo__box { width: 84px; height: 42px; }
+  .logo__box { width: 71px; height: 36px; }     /* header logo, 15% smaller than before (84 x 42) */
   .site-footer .logo__box { width: 84px; height: 42px; }
   .hero__grid { padding-block: 48px; }
   .btn { min-height: 56px; padding-inline: 24px; }
@@ -450,7 +450,11 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   .trust__item { justify-content: flex-start; }
   .trust__list { padding-block: 24px; }
   .about, .contact { padding-block: 56px; }
-  .site-nav a { font-size: 1.125rem; }
+  /* Nav links shrink with the screen width so all four always fit on one row.
+     25 is the row's approximate width in em (measured ~23, plus a safety margin);
+     the 40px is the two page gutters. */
+  .site-nav a { font-size: min(1.125rem, calc((100vw - 40px) / 25)); letter-spacing: 0.06em; }
+  .site-nav .btn--small { min-height: 0; padding: 0.4em 0.85em; }
 }
 
 @media (max-width: 520px) {
