@@ -56,6 +56,25 @@ address { font-style: normal; }
   top: 0;
   z-index: 50;
 }
+/* Sits behind the bar and carries the shadow that fades in once it is stuck.
+   The shadow itself (the look) is in the theme file. */
+.site-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Desktop, with JS: the bar scrolls away with the page, then is fixed to the top once the page has
+   scrolled past its own height (main.js adds .is-fixed and slides it down). It stays fixed until the
+   page is back at the very top. The body padding takes over the bar's space so the page does not
+   jump. Without JS the bar simply stays sticky (above). */
+@media (min-width: 821px) {
+  .bar-js .site-top { position: relative; }
+  .bar-js .site-top.is-fixed { position: fixed; top: 0; left: 0; right: 0; }
+  .bar-js.has-fixed-bar body { padding-top: var(--site-top-height, 0px); }
+}
 
 .contact-bar__inner {
   display: flex;
@@ -217,6 +236,7 @@ address { font-style: normal; }
 
   /* the wrapped header is tall on phones, so let it scroll away */
   .site-top { position: static; }
+  .site-top::after { display: none; }
 
   .hero__grid,
   .range,
