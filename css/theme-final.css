@@ -411,6 +411,12 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .site-footer .logo__box { grid-column: 1; grid-row: 1; width: 100px; height: 50px; justify-self: start; }
 .site-footer nav { grid-column: 2; grid-row: 1; }
 .site-footer__legal { grid-column: 1; grid-row: 3; width: auto; font-size: 1rem; color: var(--color-on-dark-muted); }
+.site-footer__legal .glur-link {
+  color: #7fb896;
+  font-weight: 700;
+  font-size: 1.1em;
+  text-decoration: none;
+}
 .badge {
   grid-column: 2; grid-row: 3;
   justify-self: end;
@@ -424,6 +430,8 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   text-transform: uppercase;
   color: var(--color-accent);
 }
+/* Proudly NZ Owned image: width is fixed (about the width of the old text), height follows the image's ratio */
+.badge img { width: 130px; max-width: 100%; height: auto; }
 .footer-nav a {
   font-family: var(--font-display);
   font-weight: 700;
@@ -453,22 +461,25 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   /* Nav links shrink with the screen width so all four always fit on one row.
      25 is the row's approximate width in em (measured ~23, plus a safety margin);
      the 40px is the two page gutters. */
-  .site-nav a { font-size: min(1.125rem, calc((100vw - 40px) / 25)); letter-spacing: 0.06em; }
+  .site-nav a { font-size: min(1.2375rem, calc((100vw - 40px) / 22.7)); letter-spacing: 0.06em; }
   .site-nav .btn--small { min-height: 0; padding: 0.4em 0.85em; }
 }
 
 @media (max-width: 520px) {
-  .site-footer__inner { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  /* The middle column is as wide as the logo row or the nav row (whichever is wider) and sits centred on
+     the page between two equal side columns. The 4u logo starts at the left edge of that column, which is
+     also the left edge of the first nav link (the nav links spread across the same width).
+     Row 1: 4u logo at the left edge and Proudly NZ Owned image at the right edge (vertically centred, at least 32px apart). Row 2: nav. Row 3: copyright, centred. */
+  .site-footer__inner { grid-template-columns: minmax(0, 1fr) minmax(0, max-content) minmax(0, 1fr); gap: 20px 0; }
   .site-footer__inner::before { display: none; }
-  .site-footer .logo__box,
-  .site-footer nav,
-  .site-footer__legal,
-  .badge { grid-column: 1; grid-row: auto; }
-  .site-footer .logo__box { order: 1; }
-  .site-footer nav { order: 2; }
-  .site-footer__legal { order: 3; }
-  .badge { order: 4; justify-self: start; }
-  .site-footer__legal { padding-top: 20px; border-top: 1px solid var(--color-footer-line); }
+  .site-footer__brand { display: flex; flex-wrap: nowrap; align-items: center; gap: 32px; justify-content: space-between; grid-column: 2; grid-row: 1; justify-self: stretch; }
+  .site-footer .logo__box { flex: none; }
+  .badge { min-width: 0; }
+  .site-footer nav { grid-column: 2; grid-row: 2; }
+  /* footer links stay on one row: they shrink with the screen (the row is about 15.6em wide; 40px is the two page gutters) */
+  .footer-nav { justify-content: space-between; flex-wrap: nowrap; gap: 0 1.4em; }
+  .footer-nav a { font-size: min(1.25rem, calc((100vw - 40px) / 16)); }
+  .site-footer__legal { grid-column: 1 / -1; grid-row: 3; padding-top: 20px; border-top: 1px solid var(--color-footer-line); justify-content: center; text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {

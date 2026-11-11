@@ -99,7 +99,7 @@ address { font-style: normal; }
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px 32px;
+  gap: 8px 50px;
 }
 
 /* ---------- Generic section ---------- */
@@ -217,7 +217,10 @@ address { font-style: normal; }
 }
 .site-footer__brand { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
 .footer-nav { display: flex; flex-wrap: wrap; gap: 8px 28px; }
-.site-footer__legal { width: 100%; font-size: 0.875rem; }
+/* Logo and copyright text sit in one row, vertically centred on each other */
+.site-footer__legal { width: 100%; font-size: 0.875rem; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; }
+/* Size the GS logo by height only; width follows the image's own proportions so it is never stretched */
+.site-footer__legal .logo img { height: 36px; width: auto; } /* desktop: 1.4x of 26px; mobile sets its own height below */
 .badge { display: inline-block; padding: 10px 16px; }
 
 /* ==========================================================
@@ -257,7 +260,8 @@ address { font-style: normal; }
   }
   .logo__box { width: 96px; height: 48px; }
   .site-nav { max-width: 100%; }
-  .site-nav ul { flex-wrap: nowrap; justify-content: center; gap: 0 1.1em; }
+  .site-nav ul { flex-wrap: nowrap; justify-content: center; gap: 0 2.2em; }
+  .site-footer__legal .logo img { height: 35px; width: auto; display: inline-block; vertical-align: middle; }
 }
 
 @media (max-width: 520px) {
