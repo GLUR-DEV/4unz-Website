@@ -39,7 +39,10 @@
   function swapInstantly(showVideo, text) {
     video.hidden = !showVideo;
     image.hidden = showVideo;
-    if (caption) caption.textContent = text;
+    if (caption) {
+      caption.textContent = text;
+      caption.classList.toggle('is-playing', showVideo);
+    }
     if (showVideo) playVideo(); else video.pause();
   }
 
@@ -47,26 +50,24 @@
     var incoming = showVideo ? video : image;
     var outgoing = showVideo ? image : video;
 
-    // Measure the card before and after the swap, with the outgoing item lifted out of flow.
-    // The video's 16:9 size is set in the page, so its height is known before it loads.
-    var startHeight = stage.offsetHeight;
+    // The stage has a fixed shape (set in CSS), so both items just cross-fade in place.
     outgoing.classList.add('is-leaving');
     outgoing.inert = true;
     incoming.hidden = false;
-    var endHeight = stage.offsetHeight;
 
-    stage.style.overflow = 'hidden';
     var timing = { duration: DURATION, easing: EASING };
     var animations = [
       outgoing.animate(FRAMES_OUT, { duration: DURATION, easing: EASING, fill: 'forwards' }),
-      incoming.animate(FRAMES_IN, timing),
-      stage.animate([{ height: startHeight + 'px' }, { height: endHeight + 'px' }], timing)
+      incoming.animate(FRAMES_IN, timing)
     ];
 
     // Caption fades out, changes text at the midpoint, then fades back in.
     if (caption) {
       caption.animate([{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: DURATION });
-      setTimeout(function () { caption.textContent = text; }, DURATION / 2);
+      setTimeout(function () {
+        caption.textContent = text;
+        caption.classList.toggle('is-playing', showVideo);
+      }, DURATION / 2);
     }
 
     if (showVideo) playVideo(); else video.pause();
@@ -76,7 +77,6 @@
       outgoing.classList.remove('is-leaving');
       outgoing.inert = false;
       animations.forEach(function (a) { a.cancel(); });
-      stage.style.overflow = '';
       busy = false;
     }
     Promise.all(animations.map(function (a) { return a.finished; })).then(finish, finish);
