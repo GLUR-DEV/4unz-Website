@@ -59,6 +59,15 @@
 
   --radius: 10px;
   --ease-out: cubic-bezier(0.4, 0, 0.2, 1);  /* same easing as the hero video swap */
+
+  /* Section background patterns (v1.0.7.0). Pure CSS, no images, no motion.
+     Each one is a stack of layers that can sit in a background shorthand.
+     Tweak the alpha values (the 0.055, 0.16 and 0.08 below) to make them stronger or subtler. */
+  --grid-dark:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px) 0 0 / 28px 28px;
+  --dots-light: radial-gradient(rgba(16, 38, 74, 0.16) 1px, transparent 1.6px) 0 0 / 18px 18px;
+  --stripes-hazard: repeating-linear-gradient(-45deg, rgba(16, 38, 74, 0.08) 0 10px, transparent 10px 20px);
 }
 
 body {
@@ -199,7 +208,13 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .feature-list li::before { background: var(--color-accent); }
 
 /* ---------- Hero ---------- */
-.hero { background: var(--color-header); }
+/* Blueprint grid with a blue glow in the top-right corner */
+.hero {
+  background:
+    radial-gradient(ellipse at 85% 15%, rgba(46, 98, 184, 0.55) 0%, transparent 55%),
+    var(--grid-dark),
+    linear-gradient(160deg, var(--color-header) 0%, var(--color-topbar) 100%);
+}
 .hero__grid { padding-block: 80px; }
 .hero .eyebrow { color: var(--color-accent); }
 .hero h1 { color: var(--color-on-dark); }
@@ -304,7 +319,12 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 }
 
 /* ---------- Trust strip ---------- */
-.trust { background: var(--color-accent); }
+/* Workshop-tape stripes over a yellow gradient sheen */
+.trust {
+  background:
+    var(--stripes-hazard),
+    linear-gradient(90deg, #FFC81F 0%, var(--color-accent) 50%, #E8A900 100%);
+}
 .trust__list { padding-block: 22px; }
 .trust__item { justify-content: center; }
 .icon-slot { color: var(--color-heading); }
@@ -320,12 +340,13 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 }
 
 /* ---------- Ranges ---------- */
-.ranges { background: var(--color-surface); }
+/* Dot grid over white; the alternate bands get the same dots over pale blue */
+.ranges { background: var(--dots-light), var(--color-surface); }
 .ranges__intro h2 { margin-top: 2px; }
 .ranges__intro p:last-child { font-size: 1.125rem; }
 
 .range-band--alt {
-  background: var(--color-surface-alt);
+  background: var(--dots-light), var(--color-surface-alt);
   border-block: 1px solid var(--color-border);
 }
 .range-band + .range-band:not(.range-band--alt) { border-top: 0; }
@@ -400,7 +421,14 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .more.pre-reveal::after { transform: scaleX(0); }
 
 /* ---------- About ---------- */
-.about { background: var(--color-header); padding-block: 88px; }
+/* Same blueprint grid as the hero, with the glow moved to the left so the two bands don't look identical */
+.about {
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(46, 98, 184, 0.45) 0%, transparent 55%),
+    var(--grid-dark),
+    linear-gradient(200deg, var(--color-header) 0%, var(--color-topbar) 100%);
+  padding-block: 88px;
+}
 .about h3 {
   position: relative;
   padding-top: 24px;
@@ -419,7 +447,13 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .about p strong { color: var(--color-on-dark); }
 
 /* ---------- Contact ---------- */
-.contact { background: var(--color-surface-alt); padding-block: 88px; }
+/* Dot grid that fades from white at the top into pale blue behind the cards */
+.contact {
+  background:
+    var(--dots-light),
+    linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-alt) 45%);
+  padding-block: 88px;
+}
 .contact__lede { font-size: 1.125rem; }
 .card {
   gap: 10px;
@@ -446,7 +480,12 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .card a:hover { text-decoration: underline; }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--color-footer); color: var(--color-on-dark-muted); }
+/* Gold strip along the top, matching the 3px one under the header */
+.site-footer {
+  background: var(--color-footer);
+  border-top: 3px solid var(--color-accent);
+  color: var(--color-on-dark-muted);
+}
 
 /* Row 1: logo and nav. Row 2: divider. Row 3: copyright and badge.
    .site-footer__brand is flattened so its children join the grid. */
