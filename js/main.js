@@ -1,6 +1,6 @@
 // 1. Hero: swap the chainsaw sharpener image and the setup video with a fade, scale and slide.
 // 2. Header: slide the contact bar and header down (with a shadow) when they stick to the top.
-// 3. Ranges: pop the spec chips and fade the Enquire links in every time they scroll into view.
+// 3. Ranges: slide each product row in (image, then text, then chips and Enquire link) every time it scrolls into view.
 (function () {
   var button = document.getElementById('videoToggle');
   var stage = document.getElementById('heroStage');
@@ -177,8 +177,13 @@
   update(false);                             // page may load already scrolled (refresh, back button)
 })();
 
-// Spec chips and Enquire links animate in every time they scroll into view, from either direction.
-// They are reset once completely off screen, so the animation can play again on the next visit.
+// The intro above the first row fades up line by line every time it scrolls into view.
+// Each product row plays this sequence every time it scrolls into view, from either direction:
+//   1. the image slides in from the side it sits on (the sliding itself is CSS, see .slide-pre in theme-final.css),
+//   2. the heading, intro and bullet points fade up one after another,
+//   3. the spec chips pop,
+//   4. the Enquire link fades in and draws its underline.
+// A row is reset once completely off screen, so the sequence can play again on the next visit.
 (function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   // Leave everything visible and static for reduced-motion visitors and older browsers.
@@ -191,32 +196,80 @@
     { opacity: 1, transform: 'translateY(0)' }
   ];
 
-  // Chips use the CSS .pop animation (theme-final.css); links fade up here and draw their underline in CSS.
-  function reveal(target) {
-    if (target.classList.contains('chips')) {
-      Array.prototype.forEach.call(target.children, function (chip, i) {
-        chip.style.setProperty('--i', i);    // stagger
-        chip.classList.remove('pre-reveal');
-        chip.classList.add('pop');
-      });
-    } else {
-      target.classList.remove('pre-reveal');
-      target.animate(FRAMES_LINK, { duration: LINK_DURATION, easing: EASING, fill: 'backwards' });
+  // Timing (ms). TEXT_DURATION and CHIP_STEP must match the transition and .pop lengths in theme-final.css.
+  var TEXT_START = 250;                      // first text line starts this long after the row is revealed
+  var TEXT_STEP = 80;                        // gap between text lines
+  var TEXT_DURATION = 450;                   // length of each line's fade up
+  var CHIP_OVERLAP = 140;                    // chips start this long before the last text line finishes
+  var CHIP_STEP = 70;                        // gap between chips
+  var LINK_GAP = 60;                         // link starts this long after the last chip starts
+
+  function toArray(list) { return Array.prototype.slice.call(list); }
+
+  // The intro above the first row ("What we supply") just fades its lines up one after another.
+  function revealIntro(intro) {
+    toArray(intro.children).forEach(function (line, i) {
+      line.style.setProperty('--sd', (i * TEXT_STEP) + 'ms');
+    });
+    intro.classList.remove('slide-pre');
+  }
+
+  function hideIntro(intro) {
+    intro.classList.add('slide-nt', 'slide-pre');
+    void intro.offsetWidth;                  // let the browser apply the hidden state first
+    intro.classList.remove('slide-nt');
+  }
+
+  function reveal(row) {
+    if (row.classList.contains('ranges__intro')) { revealIntro(row); return; }
+    var lines =toArray(row.querySelectorAll(':scope > .range__text > h3, :scope > .range__text > p, :scope > .range__text > .feature-list > li'));
+    var chips = toArray(row.querySelectorAll('.chips > li'));
+    var link = row.querySelector('.more');
+
+    // Text lines: CSS transition, each with its own delay.
+    lines.forEach(function (line, i) {
+      line.style.setProperty('--sd', (TEXT_START + i * TEXT_STEP) + 'ms');
+    });
+    var lastLineStart = TEXT_START + Math.max(lines.length - 1, 0) * TEXT_STEP;
+    var chipsStart = lastLineStart + TEXT_DURATION - CHIP_OVERLAP;
+    var linkStart = chipsStart + (chips.length ? (chips.length - 1) * CHIP_STEP : 0) + LINK_GAP;
+
+    // The image and text start moving as soon as .slide-pre is removed.
+    row.classList.remove('slide-pre');
+
+    // Chips: CSS .pop animation, held back by --d0 until the text has filled in.
+    chips.forEach(function (chip, i) {
+      chip.style.setProperty('--i', i);      // stagger
+      chip.style.setProperty('--d0', chipsStart + 'ms');
+      chip.classList.remove('pre-reveal');
+      chip.classList.add('pop');
+    });
+
+    // Link: waits, then fades up here and draws its underline in CSS.
+    if (link) {
+      row.linkTimer = setTimeout(function () {
+        link.classList.remove('pre-reveal');
+        link.animate(FRAMES_LINK, { duration: LINK_DURATION, easing: EASING, fill: 'backwards' });
+      }, linkStart);
     }
   }
 
-  function hide(target) {
-    if (target.classList.contains('chips')) {
-      Array.prototype.forEach.call(target.children, function (chip) {
-        chip.classList.remove('pop');
-        chip.classList.add('pre-reveal');
-      });
-    } else {
-      target.classList.add('pre-reveal');
-    }
+  function hide(row) {
+    if (row.classList.contains('ranges__intro')) { hideIntro(row); return; }
+    clearTimeout(row.linkTimer);
+    // .slide-nt switches transitions off for a moment so the reset doesn't animate backwards.
+    row.classList.add('slide-nt', 'slide-pre');
+    void row.offsetWidth;                    // let the browser apply the hidden state first
+    row.classList.remove('slide-nt');
+    toArray(row.querySelectorAll('.chips > li')).forEach(function (chip) {
+      chip.classList.remove('pop');
+      chip.classList.add('pre-reveal');
+    });
+    var link = row.querySelector('.more');
+    if (link) link.classList.add('pre-reveal');
   }
 
-  // Reveal a little before the element is fully on screen (10% up from the bottom edge) ...
+  // Reveal a little before the row is fully on screen (10% up from the bottom edge) ...
   var revealObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting && !entry.target.dataset.shown) {
@@ -236,9 +289,9 @@
     });
   });
 
-  Array.prototype.forEach.call(document.querySelectorAll('.chips, .more'), function (target) {
-    hide(target);
-    revealObserver.observe(target);
-    resetObserver.observe(target);
+  toArray(document.querySelectorAll('.ranges__intro, .range')).forEach(function (row) {
+    hide(row);
+    revealObserver.observe(row);
+    resetObserver.observe(row);
   });
 })();
