@@ -1,6 +1,10 @@
 // 1. Hero: swap the chainsaw sharpener image and the setup video with a fade, scale and slide.
 // 2. Header: slide the contact bar and header down (with a shadow) when they stick to the top.
 // 3. Ranges: slide each product row in (image, then text, then chips and Enquire link) every time it scrolls into view.
+//    About: the three columns drop their text down from the yellow bars every time they scroll into view.
+//    Contact: the heading block, then the four cards, fade up line by line every time they scroll into view.
+//    A tap on a contact card plays its hover effect for a moment on touch screens.
+//    Trust strip: its CSS stripe animation is paused while the strip is off screen.
 (function () {
   var button = document.getElementById('videoToggle');
   var stage = document.getElementById('heroStage');
@@ -178,6 +182,7 @@
 })();
 
 // The intro above the first row fades up line by line every time it scrolls into view.
+// Each About column draws its yellow bar in, then drops its heading and paragraph from it.
 // Each product row plays this sequence every time it scrolls into view, from either direction:
 //   1. the image slides in from the side it sits on (the sliding itself is CSS, see .slide-pre in theme-final.css),
 //   2. the heading, intro and bullet points fade up one after another,
@@ -203,15 +208,50 @@
   var CHIP_OVERLAP = 140;                    // chips start this long before the last text line finishes
   var CHIP_STEP = 70;                        // gap between chips
   var LINK_GAP = 60;                         // link starts this long after the last chip starts
+  var ABOUT_STEP = 90;                       // gap between the About columns when they sit side by side
+  var FRAMES_CARD = [
+    { opacity: 0, transform: 'translateY(24px)' },
+    { opacity: 1, transform: 'translateY(0)' }
+  ];
+  var contactRevealedAt = 0;                 // when the Contact heading last played, so the cards can follow it
 
   function toArray(list) { return Array.prototype.slice.call(list); }
 
   // The intro above the first row ("What we supply") just fades its lines up one after another.
+  // The Contact heading block works the same way. Its container also holds the cards, which are left alone.
+  function isContact(el) { return el.parentNode && el.parentNode.id === 'contact'; }
+
+  function introLines(intro) {
+    return toArray(intro.children).filter(function (el) { return !el.classList.contains('contact__grid'); });
+  }
+
   function revealIntro(intro) {
-    toArray(intro.children).forEach(function (line, i) {
+    introLines(intro).forEach(function (line, i) {
       line.style.setProperty('--sd', (i * TEXT_STEP) + 'ms');
     });
+    if (isContact(intro)) contactRevealedAt = Date.now();
     intro.classList.remove('slide-pre');
+  }
+
+  // Contact cards fade up one after another, continuing the heading's cascade. If a card scrolls into view
+  // on its own (a phone, where the cards are stacked below the heading), it plays by itself instead.
+  // The movement uses the Web Animations API, not a CSS transition, so it can't clash with the hover effect.
+  function isCard(el) { return el.parentNode && el.parentNode.classList.contains('contact__grid'); }
+
+  function revealCard(card) {
+    var cards = toArray(card.parentNode.children);
+    var i = cards.indexOf(card);
+    var withHeading = Date.now() - contactRevealedAt < 150;
+    var sameRowBefore = cards.filter(function (c, j) { return j < i && c.offsetTop === card.offsetTop; }).length;
+    var delay = withHeading ? introLines(card.parentNode.parentNode).length * TEXT_STEP + i * TEXT_STEP
+                            : sameRowBefore * TEXT_STEP;
+    card.classList.remove('slide-pre');
+    card.animate(FRAMES_CARD, { duration: 450, delay: delay, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)', fill: 'backwards' });
+  }
+
+  function hideCard(card) {
+    card.getAnimations().forEach(function (a) { a.cancel(); });
+    card.classList.add('slide-pre');
   }
 
   function hideIntro(intro) {
@@ -220,8 +260,27 @@
     intro.classList.remove('slide-nt');
   }
 
+  // About columns: the yellow bar draws in, then the heading and paragraph drop from it (the motion itself is CSS).
+  // When the columns sit side by side they start 90ms apart; when they are stacked each one plays on its own.
+  function isAbout(el) { return el.parentNode && el.parentNode.classList.contains('about__grid'); }
+
+  function revealAbout(col) {
+    var cols = toArray(col.parentNode.children);
+    var sideBySide = col.offsetTop === cols[0].offsetTop;   // same row as the first column
+    col.style.setProperty('--sd', (sideBySide ? cols.indexOf(col) * ABOUT_STEP : 0) + 'ms');
+    col.classList.remove('slide-pre');
+  }
+
+  function hideAbout(col) {
+    col.classList.add('slide-nt', 'slide-pre');
+    void col.offsetWidth;                    // let the browser apply the hidden state first
+    col.classList.remove('slide-nt');
+  }
+
   function reveal(row) {
-    if (row.classList.contains('ranges__intro')) { revealIntro(row); return; }
+    if (isAbout(row)) { revealAbout(row); return; }
+    if (isCard(row)) { revealCard(row); return; }
+    if (row.classList.contains('ranges__intro') || isContact(row)) { revealIntro(row); return; }
     var lines =toArray(row.querySelectorAll(':scope > .range__text > h3, :scope > .range__text > p, :scope > .range__text > .feature-list > li'));
     var chips = toArray(row.querySelectorAll('.chips > li'));
     var link = row.querySelector('.more');
@@ -255,7 +314,9 @@
   }
 
   function hide(row) {
-    if (row.classList.contains('ranges__intro')) { hideIntro(row); return; }
+    if (isAbout(row)) { hideAbout(row); return; }
+    if (isCard(row)) { hideCard(row); return; }
+    if (row.classList.contains('ranges__intro') || isContact(row)) { hideIntro(row); return; }
     clearTimeout(row.linkTimer);
     // .slide-nt switches transitions off for a moment so the reset doesn't animate backwards.
     row.classList.add('slide-nt', 'slide-pre');
@@ -289,9 +350,27 @@
     });
   });
 
-  toArray(document.querySelectorAll('.ranges__intro, .range')).forEach(function (row) {
+  toArray(document.querySelectorAll('.ranges__intro, .range, .about__grid > div, #contact > .container, .contact__grid > .card')).forEach(function (row) {
     hide(row);
     revealObserver.observe(row);
     resetObserver.observe(row);
+  });
+
+  // The trust strip's stripes drift all the time (CSS), so pause them while the strip is off screen.
+  var trust = document.querySelector('.trust');
+  if (trust) {
+    new IntersectionObserver(function (entries) {
+      trust.classList.toggle('is-paused', !entries[entries.length - 1].isIntersecting);
+    }).observe(trust);
+  }
+
+  // Touch screens have no hover, so a tap plays the card effect (the .tap class in theme-final.css) for a moment.
+  toArray(document.querySelectorAll('.contact__grid > .card')).forEach(function (card) {
+    card.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;   // a mouse already gets the hover effect
+      card.classList.add('tap');
+      clearTimeout(card.tapTimer);
+      card.tapTimer = setTimeout(function () { card.classList.remove('tap'); }, 700);
+    });
   });
 })();
