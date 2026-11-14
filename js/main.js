@@ -12,7 +12,6 @@
   var stage = document.getElementById('heroStage');
   var image = document.getElementById('heroImage');
   var video = document.getElementById('heroVideo');
-  var caption = document.getElementById('heroCaption');
   if (!button || !stage || !image || !video) return;
 
   var label = button.querySelector('.btn__label');
@@ -42,17 +41,13 @@
   }
 
   // No animation: reduced-motion visitors, or browsers without the Web Animations API.
-  function swapInstantly(showVideo, text) {
+  function swapInstantly(showVideo) {
     video.hidden = !showVideo;
     image.hidden = showVideo;
-    if (caption) {
-      caption.textContent = text;
-      caption.classList.toggle('is-playing', showVideo);
-    }
     if (showVideo) playVideo(); else video.pause();
   }
 
-  function swapAnimated(showVideo, text) {
+  function swapAnimated(showVideo) {
     var incoming = showVideo ? video : image;
     var outgoing = showVideo ? image : video;
 
@@ -66,15 +61,6 @@
       outgoing.animate(FRAMES_OUT, { duration: DURATION, easing: EASING, fill: 'forwards' }),
       incoming.animate(FRAMES_IN, timing)
     ];
-
-    // Caption fades out, changes text at the midpoint, then fades back in.
-    if (caption) {
-      caption.animate([{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }], { duration: DURATION });
-      setTimeout(function () {
-        caption.textContent = text;
-        caption.classList.toggle('is-playing', showVideo);
-      }, DURATION / 2);
-    }
 
     if (showVideo) playVideo(); else video.pause();
 
@@ -92,21 +78,20 @@
     if (busy) return;
 
     var showVideo = video.hidden;
-    var text = caption ? (showVideo ? caption.dataset.videoText : caption.dataset.imageText) : '';
 
     button.setAttribute('aria-expanded', String(showVideo));
     if (label) label.textContent = showVideo ? labelHide : labelShow;
 
     if (!video.animate || reduceMotion.matches) {
-      swapInstantly(showVideo, text);
+      swapInstantly(showVideo);
       return;
     }
 
     busy = true;
     try {
-      swapAnimated(showVideo, text);
+      swapAnimated(showVideo);
     } catch (err) {
-      swapInstantly(showVideo, text);
+      swapInstantly(showVideo);
       busy = false;
     }
   });
