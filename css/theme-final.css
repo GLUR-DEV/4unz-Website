@@ -234,6 +234,95 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
 .btn-row { gap: 16px; }
 .hero .btn--outline { gap: 12px; }
 
+/* Entrance (class .slide-pre is added and removed by main.js, so no JS = the hero is always visible).
+   Every time the hero scrolls into view: the eyebrow, heading, intro and buttons rise one after another,
+   the yellow bar under the heading draws in, the product slides in from the right, then its yellow glow ignites.
+   The delays below are in step with each other (eyebrow 0, heading 100, product 250, intro 300, bar and buttons 450, glow 700ms). */
+.hero { overflow-x: hidden; overflow-x: clip; }   /* the product waits off to the right: that must not add a sideways scrollbar */
+.hero__text > .eyebrow,
+.hero__text > h1,
+.hero__text > .lede,
+.hero__text > .btn-row {
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hero__text > h1 { transition-delay: 100ms; }
+.hero__text > .lede { transition-delay: 300ms; }
+.hero__text > .btn-row { transition-delay: 450ms; }
+.hero h1::after {
+  transform-origin: left center;
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 450ms;
+}
+.media--hero {
+  transition: transform 750ms cubic-bezier(0.2, 0.7, 0.2, 1) 250ms, opacity 750ms cubic-bezier(0.2, 0.7, 0.2, 1) 250ms;
+}
+.hero-stage::before {
+  /* the hover swell uses the separate `scale` property, so it gets its own transition without the entrance delay */
+  transition: transform 900ms ease-out 700ms, opacity 900ms ease-out 700ms, scale 350ms cubic-bezier(0.2, 0.7, 0.2, 1),
+              translate 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hero.slide-nt,
+.hero.slide-nt *,
+.hero.slide-nt *::before,
+.hero.slide-nt *::after { transition: none !important; }   /* main.js uses this to reset the hero without it animating backwards */
+.hero.slide-pre .hero__text > .eyebrow,
+.hero.slide-pre .hero__text > h1,
+.hero.slide-pre .hero__text > .lede,
+.hero.slide-pre .hero__text > .btn-row { opacity: 0; transform: translateY(18px); }
+.hero.slide-pre h1::after { transform: scaleX(0); }
+.hero.slide-pre .media--hero { opacity: 0; transform: translateX(70px) scale(0.9); }
+.hero.slide-pre .hero-stage::before { opacity: 0; transform: scale(0.6); }
+
+/* Hover and tap. Both hero buttons lift. Hover needs a mouse (any-hover, so a phone never gets it stuck on after a tap);
+   on a touch screen a tap plays the same effect for a moment instead (.tap, added by main.js).
+   The product image works differently: it tilts in 3D towards the mouse (see .is-tilting below). */
+.hero .btn {
+  transition: transform 250ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 250ms var(--ease-out),
+              background-color 250ms var(--ease-out), filter 250ms var(--ease-out), color 250ms var(--ease-out);
+}
+.hero .btn__icon { transition: transform 300ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+.media--hero img {
+  transition: transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@media (any-hover: hover) {
+  .hero .btn--solid:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.55);
+    filter: brightness(1.07);
+  }
+  .hero .btn--outline:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.55);
+  }
+  .hero .btn--outline:hover .btn__icon { transform: scale(1.25); }
+}
+.hero .btn--solid.tap {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.55);
+  filter: brightness(1.07);
+}
+.hero .btn--outline.tap {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 18px -4px rgba(0, 0, 0, 0.55);
+  background: rgba(255, 255, 255, 0.1);
+}
+.hero .btn--outline.tap .btn__icon { transform: scale(1.25); }
+
+/* Product image: follows the mouse. main.js adds .is-tilting while the mouse is over the image (and for a moment after a
+   tap on a touch screen) and sets --tx and --ty, the pointer's position across the image from -0.5 (left / top) to 0.5
+   (right / bottom). The image tilts up to 13 degrees towards it and the yellow glow drifts the same way. The tilt follows
+   the pointer closely (120ms) and eases back slowly (500ms) when it leaves. Only while the image is showing, not the video. */
+.hero-stage.is-tilting > img {
+  transform: perspective(450px) rotateY(calc(var(--tx, 0) * 26deg)) rotateX(calc(var(--ty, 0) * -26deg)) scale(1.07);
+  transition: transform 120ms ease-out, filter 350ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@supports selector(:has(a)) {
+  .hero-stage.is-tilting:has(> img:not([hidden]))::before {
+    scale: 1.08;
+    translate: calc(var(--tx, 0) * 22px) calc(var(--ty, 0) * 22px);
+    transition: transform 900ms ease-out 700ms, opacity 900ms ease-out 700ms, scale 350ms cubic-bezier(0.2, 0.7, 0.2, 1), translate 150ms ease-out;
+  }
+}
+
 .media { border-radius: 8px; overflow: hidden; }
 
 /* Hero media: no card. The product sits straight on the navy, lit by a soft yellow glow, inside a
@@ -676,6 +765,8 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   .logo__box { width: 71px; height: 36px; }     /* header logo, 15% smaller than before (84 x 42) */
   .site-footer .logo__box { width: 84px; height: 42px; }
   .hero__grid { padding-block: 48px; }
+  /* The product sits below the text here, so it rises instead of sliding in from the side */
+  .hero.slide-pre .media--hero { transform: translateY(40px) scale(0.95); }
   .btn { min-height: 56px; padding-inline: 24px; }
   .btn--small { min-height: 44px; padding-inline: 20px; }
   .media--range { height: 260px; }
@@ -724,6 +815,13 @@ p strong, .feature-list strong { color: var(--color-text); font-weight: 600; }
   .more:focus-visible,
   .more:hover .more__arrow,
   .more:focus-visible .more__arrow { transform: none; }
+  /* Hero hover: only the colour changes stay (the solid button brightens, the outline button tints). No lift, tilt or swell.
+     (main.js does not start the tilt for these visitors at all, this is a second safety net.) */
+  .hero .btn--solid:hover,
+  .hero .btn--outline:hover { transform: none; box-shadow: none; }
+  .hero .btn--outline:hover .btn__icon { transform: none; }
+  .hero-stage.is-tilting > img { transform: none; }
+  .hero-stage::before { scale: none !important; translate: none !important; }
   /* Trust strip: the stripes stay still */
   .trust { animation: none; }
   /* Contact cards: no movement, no drawing bar. The icon colour and card edge still change on hover. */

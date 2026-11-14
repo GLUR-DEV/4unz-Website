@@ -1,9 +1,11 @@
 // 1. Hero: swap the chainsaw sharpener image and the setup video with a fade, scale and slide.
 // 2. Header: slide the contact bar and header down (with a shadow) when they stick to the top.
+//    Hero entrance: the text rises line by line, the product slides in and its glow ignites, every time the hero scrolls into view.
 // 3. Ranges: slide each product row in (image, then text, then chips and Enquire link) every time it scrolls into view.
 //    About: the three columns drop their text down from the yellow bars every time they scroll into view.
 //    Contact: the heading block, then the four cards, fade up line by line every time they scroll into view.
-//    A tap on a contact card plays its hover effect for a moment on touch screens.
+//    A tap on a contact card or a hero button plays its hover effect for a moment on touch screens.
+//    The hero product image tilts in 3D towards the mouse (or towards a tap on a touch screen).
 //    Trust strip: its CSS stripe animation is paused while the strip is off screen.
 (function () {
   var button = document.getElementById('videoToggle');
@@ -278,6 +280,7 @@
   }
 
   function reveal(row) {
+    if (row.classList.contains('hero')) { row.classList.remove('slide-pre'); return; }   // the hero's timing is all CSS
     if (isAbout(row)) { revealAbout(row); return; }
     if (isCard(row)) { revealCard(row); return; }
     if (row.classList.contains('ranges__intro') || isContact(row)) { revealIntro(row); return; }
@@ -314,6 +317,7 @@
   }
 
   function hide(row) {
+    if (row.classList.contains('hero')) { hideIntro(row); return; }   // same reset as the intro blocks
     if (isAbout(row)) { hideAbout(row); return; }
     if (isCard(row)) { hideCard(row); return; }
     if (row.classList.contains('ranges__intro') || isContact(row)) { hideIntro(row); return; }
@@ -350,7 +354,7 @@
     });
   });
 
-  toArray(document.querySelectorAll('.ranges__intro, .range, .about__grid > div, #contact > .container, .contact__grid > .card')).forEach(function (row) {
+  toArray(document.querySelectorAll('.hero, .ranges__intro, .range, .about__grid > div, #contact > .container, .contact__grid > .card')).forEach(function (row) {
     hide(row);
     revealObserver.observe(row);
     resetObserver.observe(row);
@@ -364,8 +368,9 @@
     }).observe(trust);
   }
 
-  // Touch screens have no hover, so a tap plays the card effect (the .tap class in theme-final.css) for a moment.
-  toArray(document.querySelectorAll('.contact__grid > .card')).forEach(function (card) {
+  // Touch screens have no hover, so a tap plays the hover effect (the .tap class in theme-final.css) for a moment.
+  // This covers the contact cards and both hero buttons.
+  toArray(document.querySelectorAll('.contact__grid > .card, .hero .btn')).forEach(function (card) {
     card.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'mouse') return;   // a mouse already gets the hover effect
       card.classList.add('tap');
@@ -373,4 +378,32 @@
       card.tapTimer = setTimeout(function () { card.classList.remove('tap'); }, 700);
     });
   });
+
+  // Hero product image: it tilts in 3D towards the mouse while the mouse is over it (the tilt itself is CSS, see
+  // .is-tilting in theme-final.css). On a touch screen a tap tilts it towards the tap point for a moment instead.
+  // Nothing happens while the setup video is showing instead of the image.
+  var heroStage = document.getElementById('heroStage');
+  var heroImage = document.getElementById('heroImage');
+  if (heroStage && heroImage) {
+    var aim = function (e) {
+      var r = heroStage.getBoundingClientRect();
+      heroStage.style.setProperty('--tx', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+      heroStage.style.setProperty('--ty', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+    };
+    heroStage.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse' || heroImage.hidden) return;
+      aim(e);
+      heroStage.classList.add('is-tilting');
+    });
+    heroStage.addEventListener('pointerleave', function (e) {
+      if (e.pointerType === 'mouse') heroStage.classList.remove('is-tilting');
+    });
+    heroStage.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' || heroImage.hidden) return;
+      aim(e);
+      heroStage.classList.add('is-tilting');
+      clearTimeout(heroStage.tiltTimer);
+      heroStage.tiltTimer = setTimeout(function () { heroStage.classList.remove('is-tilting'); }, 700);
+    });
+  }
 })();
