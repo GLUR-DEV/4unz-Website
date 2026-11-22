@@ -5,18 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>4u Ltd | Tools and Outdoor Gear, Direct to New Zealand</title>
   <meta name="description" content="4u Ltd supplies chainsaw sharpeners, ag tools, outdoor gear and hunting equipment direct from the manufacturer to New Zealand customers.">
-  <link rel="icon" href="https://4unzresources.blob.core.windows.net/images/logo.webp" type="image/webp">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#10264A">
+  <link rel="canonical" href="https://4unz.com/">
 
-  <!-- Structure: shared by every design stage -->
-  <link rel="stylesheet" href="css/layout.css">
+  <!-- Icons: square versions (favicon.ico, icon-192.png, icon-512.png, apple-touch-icon.png) live in the site root -->
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Social sharing (Facebook, WhatsApp, LinkedIn, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="4u Ltd">
+  <meta property="og:locale" content="en_NZ">
+  <meta property="og:url" content="https://4unz.com/">
+  <meta property="og:title" content="4u Ltd | Tools and Outdoor Gear, Direct to New Zealand">
+  <meta property="og:description" content="Chainsaw sharpeners, ag tools, outdoor gear and hunting equipment, direct from the manufacturer to New Zealand customers.">
+  <meta property="og:image" content="https://4unz.com/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="4u Ltd: tools and outdoor gear, direct to New Zealand">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured data (Organization + WebSite). Must match the visible contact details. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://4unz.com/#organization",
+          "name": "4u Ltd",
+          "url": "https://4unz.com/",
+          "logo": "https://4unz.com/icon-512.png",
+          "image": "https://4unz.com/og-image.jpg",
+          "description": "4u Ltd supplies chainsaw sharpeners, ag tools, outdoor gear and hunting equipment direct from the manufacturer to New Zealand customers.",
+          "email": "just4unz@gmail.com",
+          "telephone": "+64-7-552-6778",
+          "address": {
+            "@type": "PostalAddress",
+            "postOfficeBoxNumber": "PO Box 16422",
+            "addressLocality": "Bethlehem, Tauranga",
+            "postalCode": "3147",
+            "addressCountry": "NZ"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "New Zealand"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "telephone": "+64-7-552-6778",
+              "email": "just4unz@gmail.com",
+              "areaServed": "NZ",
+              "availableLanguage": "English"
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "telephone": "+64-21-221-7788",
+              "areaServed": "NZ",
+              "availableLanguage": "English"
+            }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://4unz.com/#website",
+          "url": "https://4unz.com/",
+          "name": "4u Ltd",
+          "inLanguage": "en-NZ",
+          "publisher": {
+            "@id": "https://4unz.com/#organization"
+          }
+        }
+      ]
+    }
+  </script>
+
+  <!-- Speed: open the image connection early, fetch the hero image (the largest element on screen) and the two
+       fonts used above the fold first. If the hero image URL changes (e.g. to WebP), change it here too. -->
+  <link rel="preconnect" href="https://4unzresources.blob.core.windows.net">
+  <link rel="preload" as="image" href="https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp" fetchpriority="high">
+  <link rel="preload" as="font" type="font/woff2" href="fonts/Barlow-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/BarlowCondensed-Bold.woff2" crossorigin>
+
+  <!-- Structure: shared by every design stage. The ?v= number is bumped each release so browsers fetch fresh copies. -->
+  <link rel="stylesheet" href="css/layout.css?v=1.11.0">
   <!-- Look: swap this one file to change stage -->
-  <link rel="stylesheet" href="css/theme-final.css">
+  <link rel="stylesheet" href="css/theme-final.css?v=1.11.0">
+
+  <!-- deferred: runs after the page is parsed, same as when it sat at the end of <body>, but is fetched earlier -->
+  <script src="js/main.js?v=1.11.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Icon sprite (inline SVG, referenced with <use>) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
@@ -37,7 +125,7 @@
     <header class="site-header" data-label="Header · sticky">
       <div class="container site-header__inner">
         <a class="logo" href="#top" aria-label="4u Ltd home">
-          <span class="logo__box"><img src="https://4unzresources.blob.core.windows.net/images/logo.webp" alt="" width="2000" height="1200"></span>
+          <span class="logo__box"><img src="https://4unzresources.blob.core.windows.net/images/logo208.webp" alt="" width="208" height="104"></span>
         </a>
         <nav class="site-nav" aria-label="Main">
           <ul>
@@ -70,9 +158,9 @@
         </div>
         <figure class="media media--hero">
           <div class="hero-stage" id="heroStage">
-            <!-- Old link: https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp -->
-            <img id="heroImage" src="https://drive.google.com/thumbnail?id=1JuFpYeEQp53c1VeeIJStKMFlNLy5hkQ_&sz=w1000" alt="Orange chainsaw sharpener with the banner Sharpen Like a Pro" width="484" height="548">
-            <video id="heroVideo" controls preload="none" playsinline hidden width="640" height="360">
+            <img id="heroImage" src="https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp" alt="Orange chainsaw sharpener with the banner Sharpen Like a Pro" width="484" height="548" fetchpriority="high">
+            <video id="heroVideo" controls preload="none" playsinline hidden width="640" height="360"
+                   poster="https://4unzresources.blob.core.windows.net/images/chainsawsharpener.webp">
               <source src="https://4unzresources.blob.core.windows.net/images/video.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -224,8 +312,8 @@
   <footer class="site-footer" data-label="Footer">
     <div class="container site-footer__inner">
       <div class="site-footer__brand">
-        <span class="logo__box"><img src="https://4unzresources.blob.core.windows.net/images/logo.webp" alt="4u Ltd" width="2000" height="1200" loading="lazy"></span>
-        <span class="badge"><img src="https://drive.google.com/thumbnail?id=10iYWdT2iWd6ZRKhh7URZbQhtWIy5aVNT&sz=w1000" alt="Proudly NZ Owned" loading="lazy"></span>
+        <span class="logo__box"><img src="https://4unzresources.blob.core.windows.net/images/logo208.webp" alt="4u Ltd" width="208" height="104" loading="lazy"></span>
+        <span class="badge"><img src="https://4unzresources.blob.core.windows.net/images/NewFooter.webp" alt="Proudly NZ Owned" loading="lazy"></span>
       </div>
       <nav aria-label="Footer">
         <ul class="footer-nav">
@@ -236,13 +324,12 @@
       </nav>
       <p class="site-footer__legal">
         <a class="logo" href="https://glursolutions.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://glurstorage.blob.core.windows.net/images/GSLogoMobile.png" alt="GLUR Solutions" width="120" height="26">
+          <img src="https://glurstorage.blob.core.windows.net/images/GSLogoMobile.png" alt="GLUR Solutions" width="120" height="26" loading="lazy">
         </a>
         <span class="site-footer__legal-text">© 2026 · Built with Love by <a class="glur-link" href="https://glursolutions.com" target="_blank" rel="noopener noreferrer">GLUR</a></span>
       </p>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
 </body>
 </html>

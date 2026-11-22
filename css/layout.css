@@ -34,6 +34,9 @@ address { font-style: normal; }
   padding-inline: var(--gutter);
 }
 
+/* Inline SVG icon sprite: takes no space (moved here from an inline style so the CSP needs no 'unsafe-inline') */
+.icon-sprite { position: absolute; }
+
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;
@@ -221,7 +224,7 @@ address { font-style: normal; }
 .site-footer__legal { width: 100%; font-size: 0.875rem; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; }
 /* Size the GS logo by height only; width follows the image's own proportions so it is never stretched */
 .site-footer__legal .logo img { height: 36px; width: auto; } /* desktop: 1.4x of 26px; mobile sets its own height below */
-.badge { display: inline-block; padding: 10px 16px; }
+.badge { display: inline-block; padding: 10px 16px; width: 150px; height: auto; }
 
 /* ==========================================================
    Responsive
@@ -236,7 +239,6 @@ address { font-style: normal; }
   /* the fixed header covers the top of the screen, so anchors must land below it
      (--site-top-height is measured and set by main.js; 150px is the fallback) */
   html { scroll-padding-top: calc(var(--site-top-height, 150px) + 8px); }
-
   .hero__grid,
   .range,
   .about__grid { grid-template-columns: minmax(0, 1fr); }
@@ -262,6 +264,8 @@ address { font-style: normal; }
   .site-nav { max-width: 100%; }
   .site-nav ul { flex-wrap: nowrap; justify-content: center; gap: 0 2.2em; }
   .site-footer__legal .logo img { height: 35px; width: auto; display: inline-block; vertical-align: middle; }
+
+  .badge { display: inline-block; padding: 10px 16px; width: 100px; height: auto; }
 }
 
 @media (max-width: 520px) {
